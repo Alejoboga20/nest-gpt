@@ -8,7 +8,6 @@ export class GptController {
 
   @Post('orthography-check')
   orthographyCheck(@Body() orthographyDto: OrthographyDto) {
-    console.log({ orthographyDto });
-    return this.gptService.orthographyCheck();
+    return this.gptService.orthographyCheck(orthographyDto);
   }
 }
