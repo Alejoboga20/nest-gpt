@@ -1,12 +1,21 @@
+import OpenAI from 'openai';
+
 interface Args {
   prompt: string;
 }
 
-export const orthographyCheckUseCase = async (args: Args) => {
+export const orthographyCheckUseCase = async (openai: OpenAI, args: Args) => {
   const { prompt } = args;
-  const apiKey = process.env.OPENAI_API_KEY;
+
+  const completion = await openai.chat.completions.create({
+    messages: [
+      { role: 'system', content: 'You are a helpful assistant.' },
+      { role: 'user', content: prompt },
+    ],
+    model: 'gpt-3.5-turbo',
+  });
 
   return {
-    message: 'This action returns orthography check',
+    completion: completion.choices[0],
   };
 };
