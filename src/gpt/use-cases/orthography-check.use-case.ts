@@ -21,19 +21,21 @@ export const orthographyCheckUseCase = async (openai: OpenAI, args: Args) => {
                   Output Example:
                   {
                     userScore: number,
-                    errors: string[], //['error -> solution']
-                    message: string, // 'Congratulations, there are no mistakes in the text.'
+                    errors: string[], //['error -> solution'], list of the errors and their solutions
+                    message: string, // 'Congratulations, there are no mistakes in the text.' or 'There are mistakes in the text.'
                   }
                 `,
       },
       { role: 'user', content: prompt },
     ],
     model: 'gpt-3.5-turbo',
-    temperature: 0,
+    temperature: 0.3,
     max_tokens: maxTokens,
   });
 
+  const response = JSON.parse(completion.choices[0].message.content);
+
   return {
-    completion: completion.choices[0],
+    completion: response,
   };
 };
